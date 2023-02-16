@@ -62,11 +62,11 @@ async def _click_me(ctx: interactions.ComponentContext):
 	async with lock: 
 		if user not in dps_queue:
 			dps_queue.append(user)
-			await ctx.send(f"{member} added to queue as dps!")
+			await ctx.send(f"{member.nick} added to queue as dps!")
 			await queue_check(ctx)
 		else:
 			dps_queue.remove(user)
-			await ctx.send(f"{member} has been removed from the dps queue.")
+			await ctx.send(f"{member.nick} has been removed from the dps queue.")
 
 @bot.component("tank_click")
 async def _click_me(ctx: interactions.ComponentContext):
@@ -75,11 +75,11 @@ async def _click_me(ctx: interactions.ComponentContext):
 	async with lock: 
 		if user not in tank_queue:
 			tank_queue.append(user)
-			await ctx.send(f"{member} added to queue as tank!")
+			await ctx.send(f"{member.nick} added to queue as tank!")
 			await queue_check(ctx)
 		else:
 			tank_queue.remove(user)
-			await ctx.send(f"{member} has been removed from the tank queue.")
+			await ctx.send(f"{member.nick} has been removed from the tank queue.")
 
 @bot.component("healer_click")
 async def _click_me(ctx: interactions.ComponentContext):
@@ -88,11 +88,11 @@ async def _click_me(ctx: interactions.ComponentContext):
 	async with lock: 
 		if user not in healer_queue:
 			healer_queue.append(user)
-			await ctx.send(f"{member} added to queue as healer!")
+			await ctx.send(f"{member.nick} added to queue as healer!")
 			await queue_check(ctx)
 		else:
 			healer_queue.remove(user)
-			await ctx.send(f"{member} has been removed from the healer queue.")
+			await ctx.send(f"{member.nick} has been removed from the healer queue.")
 
 
 
@@ -106,13 +106,13 @@ async def queue(ctx: interactions.CommandContext):
 	dql = []
 	for tank in tank_queue:
 		member = await interactions.get(bot, interactions.Member, object_id=tank.id, guild_id=ctx.guild_id)
-		tql.append(f"{member}")
+		tql.append(f"{member.nick}")
 	for healer in healer_queue:
 		member = await interactions.get(bot, interactions.Member, object_id=healer.id, guild_id=ctx.guild_id)
-		hql.append(f"{member}")
+		hql.append(f"{member.nick}")
 	for dps in dps_queue:
 		member = await interactions.get(bot, interactions.Member, object_id=dps.id, guild_id=ctx.guild_id)
-		dql.append(f"{member}")
+		dql.append(f"{member.nick}")
 
 	await ctx.send(		"The current queue:" + "\n" +
 		"<:tank:444634700523241512> : " + ', '.join(tql) + "\n" +
@@ -164,9 +164,9 @@ async def _button(ctx: interactions.CommandContext, role: str = ""):
 				role_remove_list.append("DPS")
 				dps_queue.remove(user)
 		if role_add_list != []:
-			await ctx.send(f"{member} joined the queue as {', '.join(role_add_list)}.")
+			await ctx.send(f"{member.nick} joined the queue as {', '.join(role_add_list)}.")
 		if role_remove_list != []:
-			await ctx.send(f"{member} left the queue as {', '.join(role_remove_list)}.")
+			await ctx.send(f"{member.nick} left the queue as {', '.join(role_remove_list)}.")
 		if "tank" not in role:
 			if "heal" not in role:
 				if "dps" not in role:
