@@ -1,6 +1,8 @@
 # PugBot
 
 Bot for finding groups in a discord server for World of Warcraft Mythic+ Dungeons.
+
+
 Requires interactions.py
 https://discord-py-slash-command.readthedocs.io/en/latest/utils.get.html
 
