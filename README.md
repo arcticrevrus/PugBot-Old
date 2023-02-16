@@ -11,7 +11,7 @@ https://discord-py-slash-command.readthedocs.io/en/latest/utils.get.html
 
 Usage:
 
-Add a discord bot token to config.py and run pugbot.py
+Rename config.py.example to config.py and insert your discord bot token into token="" and run pugbot.py
 
 /add allows the user to join the queue as a specified role.
 /queue will show the current queue.
