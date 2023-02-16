@@ -98,7 +98,7 @@ async def _click_me(ctx: interactions.ComponentContext):
 
 @bot.command(
 	name="queue",
-	description="Show the queue status",
+	description="Show the queue status.",
 )
 async def queue(ctx: interactions.CommandContext):
 	tql = []
@@ -121,11 +121,11 @@ async def queue(ctx: interactions.CommandContext):
 
 @bot.command(
 	name="add",
-	description="Add to the queue",
+	description="Add to the queue.",
 	options= [
 		interactions.Option(
 			name="role",
-			description="Roles you want to join as, seperated by comma. Accepted values are: tank, healer, dps",
+			description="Roles you want to join as, seperated by comma. Accepted values are: tank, healer, dps.",
 			type=interactions.OptionType.STRING,
 			required=False,
 			autocomplete=True,
@@ -170,9 +170,9 @@ async def _button(ctx: interactions.CommandContext, role: str = ""):
 		if "tank" not in role:
 			if "heal" not in role:
 				if "dps" not in role:
-					await user.send("No valid role specified, acceptable roles are `tank` `healer` and `dps`")
+					await user.send("No valid role specified, acceptable roles are `tank` `healer` and `dps`.")
 	else:
-		await ctx.send(	"Click a button to add to the queue",
+		await ctx.send(	"Click a button to add to the queue.",
 			components=[tank_button, healer_button, dps_button])
 
 bot.start()
