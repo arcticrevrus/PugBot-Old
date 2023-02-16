@@ -117,11 +117,11 @@ async def queue(ctx: interactions.CommandContext):
 	hql = []
 	dql = []
 	for tank in tank_queue:
+		member = await interactions.get(bot, interactions.Member, object_id=tank.id, guild_id=ctx.guild_id)
 		if member.nick == None:
 			member = member.username
 		else:
 			member = member.nick
-		member = await interactions.get(bot, interactions.Member, object_id=tank.id, guild_id=ctx.guild_id)
 		tql.append(f"{member}")
 	for healer in healer_queue:
 		member = await interactions.get(bot, interactions.Member, object_id=healer.id, guild_id=ctx.guild_id)
