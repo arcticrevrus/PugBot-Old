@@ -59,9 +59,8 @@ async def queue_check(ctx: interactions.ComponentContext):
 async def _click_me(ctx: interactions.ComponentContext):
 	user=ctx.user
 	member = await interactions.get(bot, interactions.Member, object_id=user.id, guild_id=ctx.guild_id)
-	if member.nick == 'None':
+	if member.nick == None:
 		member = member.username
-		print(member.username)
 	else:
 		member = member.nick
 	async with lock: 
@@ -77,7 +76,7 @@ async def _click_me(ctx: interactions.ComponentContext):
 async def _click_me(ctx: interactions.ComponentContext):
 	user=ctx.user
 	member = await interactions.get(bot, interactions.Member, object_id=user.id, guild_id=ctx.guild_id)
-	if member.nick == 'None':
+	if member.nick == None:
 		member = member.username
 	else:
 		member = member.nick
@@ -94,7 +93,7 @@ async def _click_me(ctx: interactions.ComponentContext):
 async def _click_me(ctx: interactions.ComponentContext):
 	user=ctx.user
 	member = await interactions.get(bot, interactions.Member, object_id=user.id, guild_id=ctx.guild_id)
-	if member.nick == 'None':
+	if member.nick == None:
 		member = member.username
 	else:
 		member = member.nick
@@ -118,7 +117,7 @@ async def queue(ctx: interactions.CommandContext):
 	hql = []
 	dql = []
 	for tank in tank_queue:
-		if member.nick == 'None':
+		if member.nick == None:
 			member = member.username
 		else:
 			member = member.nick
@@ -126,14 +125,14 @@ async def queue(ctx: interactions.CommandContext):
 		tql.append(f"{member}")
 	for healer in healer_queue:
 		member = await interactions.get(bot, interactions.Member, object_id=healer.id, guild_id=ctx.guild_id)
-		if member.nick == 'None':
+		if member.nick == None:
 			member = member.username
 		else:
 			member = member.nick
 		hql.append(f"{member}")
 	for dps in dps_queue:
 		member = await interactions.get(bot, interactions.Member, object_id=dps.id, guild_id=ctx.guild_id)
-		if member.nick == 'None':
+		if member.nick == None:
 			member = member.username
 		else:
 			member = member.nick
@@ -160,7 +159,7 @@ async def queue(ctx: interactions.CommandContext):
 async def _button(ctx: interactions.CommandContext, role: str = ""):
 	user = ctx.user
 	member = await interactions.get(bot, interactions.Member, object_id=ctx.user.id, guild_id=ctx.guild_id)
-	if member.nick == 'None':
+	if member.nick == None:
 		member = member.username
 	else:
 		member = member.nick
