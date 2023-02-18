@@ -234,8 +234,5 @@ async def _button(ctx: interactions.CommandContext, role: str = ""):
 			if "heal" not in role:
 				if "dps" not in role:
 					await user.send("No valid role specified, acceptable roles are `tank` `healer` and `dps`.")
-	else:
-		await ctx.send(	"Click a button to add to the queue.",
-			components=[tank_button, healer_button, dps_button])
 
 bot.start()
