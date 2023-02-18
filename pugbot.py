@@ -145,38 +145,38 @@ async def on_message_create(message: interactions.message):
 					components=[tank_button, healer_button, dps_button])
 			
 async def queue_check(ctx: interactions.ComponentContext):
-	if(len(tank_queue) >= 1 and len(dps_queue) >= 3 and len(healer_queue) >= 1):
-		tank_filled_queue = []
-		healer_filled_queue = []
-		dps_filled_queue = []
-		filled_queue=[]
-		if len(filled_queue) >= 5:
-			for tank in tank_queue:
-				if len(tank_filled_queue) >= 1:
-					tank_filled_queue.append(tank)
-			for healer in healer_queue:
-				if len(healer_filled_queue) >= 1:
-					if healer not in (tank_filled_queue):
-						healer_filled_queue.append(healer)
-			for dps in dps_queue:
-				if dps not in tank_queue or dps not in healer_queue:
-					if len(dps_filled_queue) >= 3:
-						dps_filled_queue.append(dps)
-		if(len(filled_queue) == 5):
-			for tank in tank_filled_queue:
-				filled_queue.append(tank)
-			for healer in healer_filled_queue:
-				filled_queue.append(healer)
-			for dps in dps_filled_queue:
-				filled_queue.append(dps_filled_queue)
-			await ctx.channel.send("A group has been found!" + ' , '.join((f"<@{player.id}>")) for player in filled_queue)
-			for user in filled_queue:
-				if user in tank_queue:
-					tank_queue.remove(user)
-				if user in healer_queue:
-					healer_queue.remove(user)
-				if user in dps_queue:
-					dps_queue.remove(user)
+	print("Queue Check Fired")
+	tank_filled_queue = []
+	healer_filled_queue = []
+	dps_filled_queue = []
+	filled_queue=[]
+	if len(filled_queue) <= 5:
+		for tank in tank_queue:
+			if len(tank_filled_queue) < 1:
+				tank_filled_queue.append(tank)
+		for healer in healer_queue:
+			if len(healer_filled_queue) < 1:
+				if healer not in (tank_filled_queue):
+					healer_filled_queue.append(healer)
+		for dps in dps_queue:
+			if dps not in tank_queue or dps not in healer_queue:
+				if len(dps_filled_queue) < 3:
+					dps_filled_queue.append(dps)
+	if(len(filled_queue) >= 5):
+		for tank in tank_filled_queue:
+			filled_queue.append(tank)
+		for healer in healer_filled_queue:
+			filled_queue.append(healer)
+		for dps in dps_filled_queue:
+			filled_queue.append(dps_filled_queue)
+		await ctx.channel.send("A group has been found!" + ' , '.join((f"<@{player.id}>")) for player in filled_queue)
+		for user in filled_queue:
+			if user in tank_queue:
+				tank_queue.remove(user)
+			if user in healer_queue:
+				healer_queue.remove(user)
+			if user in dps_queue:
+				dps_queue.remove(user)
                 
 
 @bot.component("dps_click")
