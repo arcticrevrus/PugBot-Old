@@ -35,9 +35,37 @@ async def on_start():
 		chans = await guild.get_all_channels()
 		for channel in chans:
 			if channel.name == "mythic-plus-pickup":
+				tank_queue_nicks = []
+				dps_queue_nicks = []
+				healer_queue_nicks = []
+				for tank in tank_queue:
+					member = await interactions.get(bot, interactions.Member, object_id=tank.id, guild_id=guild.id)
+					if member.nick == None:
+						member = member.username
+					else:
+						member = member.nick
+					tank_queue_nicks.append(member)
+				for healer in healer_queue:
+					member = await interactions.get(bot, interactions.Member, object_id=healer.id, guild_id=guild.id)
+					if member.nick == None:
+						member = member.username
+					else:
+						member = member.nick
+					healer_queue_nicks.append(member)
+				for dps in dps_queue:
+					member = await interactions.get(bot, interactions.Member, object_id=dps.id, guild_id=guild.id)
+					if member.nick == None:
+						member = member.username
+					else:
+						member = member.nick
+					dps_queue_nicks.append(member)
 				await channel.send("********Bot has been reloaded********")
-				await channel.send("Click a button to add to the queue.",
-						components=[tank_button, healer_button, dps_button])
+				await channel.send("The current queue:" + "\n" +
+					"<:tank:444634700523241512> : " + ', '.join(tank_queue_nicks) + "\n" +
+					"<:heal:444634700363857921> : " + ', '.join(healer_queue_nicks) + "\n" +
+					"<:dps:444634700531630094> : " + ', '.join(dps_queue_nicks) + "\n" +
+					"Click a button to add to the queue.",
+					components=[tank_button, healer_button, dps_button])
 
 
 
@@ -48,39 +76,100 @@ async def on_message_create(message: interactions.message):
 	if str(chan) == "mythic-plus-pickup":
 		if message.author != bot.me:
 			if prevmsg != "":
+				tank_queue_nicks = []
+				dps_queue_nicks = []
+				healer_queue_nicks = []
+				for tank in tank_queue:
+					member = await interactions.get(bot, interactions.Member, object_id=tank.id, guild_id=message.guild_id)
+					if member.nick == None:
+						member = member.username
+					else:
+						member = member.nick
+					tank_queue_nicks.append(member)
+				for healer in healer_queue:
+					member = await interactions.get(bot, interactions.Member, object_id=healer.id, guild_id=message.guild_id)
+					if member.nick == None:
+						member = member.username
+					else:
+						member = member.nick
+					healer_queue_nicks.append(member)
+				for dps in dps_queue:
+					member = await interactions.get(bot, interactions.Member, object_id=dps.id, guild_id=message.guild_id)
+					if member.nick == None:
+						member = member.username
+					else:
+						member = member.nick
+					dps_queue_nicks.append(member)
 				await prevmsg.delete()
-				await chan.send("Click a button to add to the queue.",
+				await chan.send("The current queue:" + "\n" +
+					"<:tank:444634700523241512> : " + ', '.join(tank_queue_nicks) + "\n" +
+					"<:heal:444634700363857921> : " + ', '.join(healer_queue_nicks) + "\n" +
+					"<:dps:444634700531630094> : " + ', '.join(dps_queue_nicks) + "\n" +
+					"Click a button to add to the queue.",
 					components=[tank_button, healer_button, dps_button])
 		if message.author == bot.me:
 			if "Click a button to add to the queue." in message.content:
 				prevmsg = message
 			else:
 				if prevmsg != "":
+					tank_queue_nicks = []
+					dps_queue_nicks = []
+					healer_queue_nicks = []
+					for tank in tank_queue:
+						member = await interactions.get(bot, interactions.Member, object_id=tank.id, guild_id=message.guild_id)
+						if member.nick == None:
+							member = member.username
+						else:
+							member = member.nick
+						tank_queue_nicks.append(member)
+					for healer in healer_queue:
+						member = await interactions.get(bot, interactions.Member, object_id=healer.id, guild_id=message.guild_id)
+						if member.nick == None:
+							member = member.username
+						else:
+							member = member.nick
+						healer_queue_nicks.append(member)
+					for dps in dps_queue:
+						member = await interactions.get(bot, interactions.Member, object_id=dps.id, guild_id=message.guild_id)
+						if member.nick == None:
+							member = member.username
+						else:
+							member = member.nick
+						dps_queue_nicks.append(member)
 					await prevmsg.delete()
-					await chan.send("Click a button to add to the queue.",
-						components=[tank_button, healer_button, dps_button])
+					await chan.send("The current queue:" + "\n" +
+					"<:tank:444634700523241512> : " + ', '.join(tank_queue_nicks) + "\n" +
+					"<:heal:444634700363857921> : " + ', '.join(healer_queue_nicks) + "\n" +
+					"<:dps:444634700531630094> : " + ', '.join(dps_queue_nicks) + "\n" +
+					"Click a button to add to the queue.",
+					components=[tank_button, healer_button, dps_button])
 			
-
-
 async def queue_check(ctx: interactions.ComponentContext):
 	if(len(tank_queue) >= 1 and len(dps_queue) >= 3 and len(healer_queue) >= 1):
-		for tank in tank_queue:
-			filled_queue_notify=[]
-			filled_queue=[]
-			filled_queue_notify.append(f"<@{tank.id}>")
-			filled_queue.append(tank)
+		tank_filled_queue = []
+		healer_filled_queue = []
+		dps_filled_queue = []
+		filled_queue=[]
+		if len(filled_queue) >= 5:
+			for tank in tank_queue:
+				if len(tank_filled_queue) >= 1:
+					tank_filled_queue.append(tank)
 			for healer in healer_queue:
-				if tank != healer:
-					filled_queue_notify.append(f"<@{healer.id}>")
-					filled_queue.append(healer)
-					for dps in dps_queue:
-						if len(filled_queue) < 5:
-							if tank != dps:
-								if healer != dps:
-									filled_queue_notify.append(f"<@{dps.id}>")
-									filled_queue.append(dps)
+				if len(healer_filled_queue) >= 1:
+					if healer not in (tank_filled_queue):
+						healer_filled_queue.append(healer)
+			for dps in dps_queue:
+				if dps not in tank_queue or dps not in healer_queue:
+					if len(dps_filled_queue) >= 3:
+						dps_filled_queue.append(dps)
 		if(len(filled_queue) == 5):
-			await ctx.channel.send("A group has been found!" + ' , '.join(filled_queue_notify))
+			for tank in tank_filled_queue:
+				filled_queue.append(tank)
+			for healer in healer_filled_queue:
+				filled_queue.append(healer)
+			for dps in dps_filled_queue:
+				filled_queue.append(dps_filled_queue)
+			await ctx.channel.send("A group has been found!" + ' , '.join((f"<@{player.id}>")) for player in filled_queue)
 			for user in filled_queue:
 				if user in tank_queue:
 					tank_queue.remove(user)
@@ -140,43 +229,6 @@ async def _click_me(ctx: interactions.ComponentContext):
 		else:
 			healer_queue.remove(user)
 			await ctx.channel.send(f"{member} has been removed from the healer queue.")
-
-
-
-@bot.command(
-	name="queue",
-	description="Show the queue status.",
-)
-async def queue(ctx: interactions.CommandContext):
-	tql = []
-	hql = []
-	dql = []
-	for tank in tank_queue:
-		member = await interactions.get(bot, interactions.Member, object_id=tank.id, guild_id=ctx.guild_id)
-		if member.nick == None:
-			member = member.username
-		else:
-			member = member.nick
-		tql.append(f"{member}")
-	for healer in healer_queue:
-		member = await interactions.get(bot, interactions.Member, object_id=healer.id, guild_id=ctx.guild_id)
-		if member.nick == None:
-			member = member.username
-		else:
-			member = member.nick
-		hql.append(f"{member}")
-	for dps in dps_queue:
-		member = await interactions.get(bot, interactions.Member, object_id=dps.id, guild_id=ctx.guild_id)
-		if member.nick == None:
-			member = member.username
-		else:
-			member = member.nick
-		dql.append(f"{member}")
-
-	await ctx.send(		"The current queue:" + "\n" +
-		"<:tank:444634700523241512> : " + ', '.join(tql) + "\n" +
-		"<:heal:444634700363857921> : " + ', '.join(hql) + "\n" +
-		"<:dps:444634700531630094> : " + ', '.join(dql))
 
 @bot.command(
 	name="add",
