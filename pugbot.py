@@ -186,7 +186,7 @@ async def queue(ctx: interactions.CommandContext):
 			name="role",
 			description="Roles you want to join as, seperated by comma. Accepted values are: tank, healer, dps.",
 			type=interactions.OptionType.STRING,
-			required=False,
+			required=True,
 			autocomplete=True,
 		),
 	],
