@@ -145,21 +145,20 @@ async def on_message_create(message: interactions.message):
 					components=[tank_button, healer_button, dps_button])
 			
 async def queue_check(ctx: interactions.ComponentContext):
-	print("Queue Check Fired")
 	tank_filled_queue = []
 	healer_filled_queue = []
 	dps_filled_queue = []
-	filled_queue=[]
-	if len(filled_queue) <= 5:
+	filled_queue = []
+	if len(filled_queue) < 5:
 		for tank in tank_queue:
 			if len(tank_filled_queue) < 1:
 				tank_filled_queue.append(tank)
 		for healer in healer_queue:
 			if len(healer_filled_queue) < 1:
-				if healer not in (tank_filled_queue):
+				if healer not in tank_filled_queue:
 					healer_filled_queue.append(healer)
 		for dps in dps_queue:
-			if dps not in tank_queue or dps not in healer_queue:
+			if dps not in tank_filled_queue or dps not in healer_filled_queue:
 				if len(dps_filled_queue) < 3:
 					dps_filled_queue.append(dps)
 	if(len(filled_queue) >= 5):
